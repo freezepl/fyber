@@ -5,6 +5,8 @@ module FyberApi
   API_URL = 'http://api.sponsorpay.com/feed/v1/offers.json'
   extend self
 
+  # Setup connection to Fyber and returns instance of FyberApi::Response
+  # Accepts hash with additional options, refer: http://developer.fyber.com/content/ios/offer-wall/offer-api/
   def connect(options={})
     query = query_string(options)
     request = generate_request(query)
@@ -17,6 +19,7 @@ module FyberApi
     end
   end
 
+  # Returns hash with mandatory request parameters
   def default_options
     {
       appid: app_id,
@@ -52,16 +55,25 @@ module FyberApi
     @api_key ||= Rails.application.secrets.fyber_api_key
   end
 
+  # Gathers all request parameters, orders alphabetically and concatenate theme
+  # Params:
+  # - options: hash with query options
   def query_string(options={})
     default_options.merge(options).delete_if{ |k, v| v.nil? || v == "" }.sort.map{ |arr| "#{arr[0]}=#{arr[1]}" }.join("&")
   end
 
+  # Concatenate query with API key and hash the result using SHA1
+  # Params:
+  # - query: should be already parsed with :query_string
   def hashkey_calculation(query)
     validate(query)
     query += '&' + api_key.to_s
     Digest::SHA1.hexdigest(query)
   end
 
+  # Generates final request, signed with hashkey
+  # Params
+  # - query: should be already parsed with :query_string and :hashkey_calculation
   def generate_request(query)
     validate(query)
     URI(API_URL + '?' + query + "&hashkey=" + hashkey_calculation(query))
@@ -69,6 +81,9 @@ module FyberApi
 
   private
 
+  # Validates if given argument is String
+  # Params
+  # - query: String
   def validate(query)
     raise(ArgumentError, ":query must be a string") unless query.is_a?(String)
   end
