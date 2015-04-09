@@ -16,9 +16,11 @@ group :development, :test do
   gem 'byebug'
   gem 'spring'
   gem 'rspec-rails', '~> 3.0'
+  gem 'dotenv-rails'
 end
 
 group :development do
   gem 'better_errors'
   gem 'binding_of_caller'
+  gem 'quiet_assets'
 end
