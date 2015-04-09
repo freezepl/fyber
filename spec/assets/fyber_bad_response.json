@@ -1,0 +1,4 @@
+{
+  "code": "ERROR_INVALID_APPID",
+  "message": "An invalid application id (appid) was given as a parameter in the request."
+}
