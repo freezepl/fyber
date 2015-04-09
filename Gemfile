@@ -24,3 +24,7 @@ group :development do
   gem 'binding_of_caller'
   gem 'quiet_assets'
 end
+
+group :test do
+  gem 'capybara', '~> 2.3'
+end

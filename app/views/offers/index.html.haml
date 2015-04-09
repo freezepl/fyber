@@ -1,0 +1,8 @@
+%h1 Fyber Offers
+%p Please fill out this form:
+= render 'form'
+
+- if @offers.present?
+  = render @offers
+- elsif @offers
+  .no_offers No offers
