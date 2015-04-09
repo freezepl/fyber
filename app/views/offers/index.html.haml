@@ -3,6 +3,6 @@
 = render 'form'
 
 - if @offers.present?
-  = render @offers
+  = render partial: "offer", collection: @offers
 - elsif @offers
   .no_offers No offers
